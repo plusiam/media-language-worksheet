@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>말의 힘과 책임 - 매체언어 학습지</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+        }
+
+        .refresh-btn-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .refresh-btn {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            border: 2px solid white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .refresh-btn:hover {
+            background: rgba(255, 255, 255, 0.5);
+            transform: rotate(180deg);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .section {
+            padding: 30px;
+            border-bottom: 2px solid #f0f0f0;
+            position: relative;
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .section-download-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8em;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .section-download-btn:hover {
+            background: #5568d3;
+            transform: scale(1.05);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 18px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .time-badge {
+            background: #667eea;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-right: 15px;
+            font-size: 0.9em;
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .strategy-badge {
+            display: inline-block;
+            background: #ffd93d;
+            color: #333;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .activity {
+            margin: 15px 0;
+            padding: 15px;
+            background: #f8f9ff;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+        }
+
+        .activity-number {
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+
+        .activity-content {
+            color: #555;
+            line-height: 1.8;
+            font-size: 1.05em;
+        }
+
+        textarea, input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: inherit;
+            margin-top: 10px;
+            transition: border-color 0.3s;
+            resize: vertical;
+        }
+
+        textarea:focus, input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .emoji-selector {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .emoji-btn {
+            font-size: 2em;
+            padding: 10px 15px;
+            border: 3px solid #ddd;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .emoji-btn:hover {
+            transform: scale(1.1);
+            border-color: #667eea;
+        }
+
+        .emoji-btn.selected {
+            border-color: #667eea;
+            background: #f8f9ff;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .distance-container {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f8f9ff;
+            border-radius: 12px;
+        }
+
+        .distance-stage {
+            margin: 12px 0;
+            padding: 12px;
+            background: white;
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .stage-label {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+
+        .distance-visual {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 5px;
+        }
+
+        .person-icon {
+            font-size: 1.8em;
+            transition: transform 0.3s ease;
+        }
+
+        .distance-slider-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .distance-slider {
+            width: 100%;
+            height: 6px;
+            border-radius: 5px;
+            background: linear-gradient(to right, #4caf50 0%, #ffd93d 50%, #ff6b6b 100%);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .distance-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
+
+        .distance-slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            border: none;
+        }
+
+        .distance-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75em;
+            color: #666;
+            padding: 0 3px;
+        }
+
+        .postit-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .postit {
+            background: #fff740;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            min-width: 150px;
+            position: relative;
+            transform: rotate(-1deg);
+        }
+
+        .postit:nth-child(even) {
+            background: #7afcff;
+            transform: rotate(1deg);
+        }
+
+        .postit:nth-child(3n) {
+            background: #ffa6f6;
+            transform: rotate(-2deg);
+        }
+
+        .postit textarea {
+            margin-top: 0;
+            border: none;
+            background: transparent;
+            width: 100%;
+            resize: none;
+        }
+
+        .postit-delete-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 0.8em;
+            font-weight: bold;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .postit-delete-btn:hover {
+            background: #ee5a52;
+            transform: scale(1.1);
+        }
+
+        .add-postit-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            margin-top: 15px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .add-postit-btn:hover {
+            background: #5568d3;
+        }
+
+        .sentence-complete {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .sentence-line {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.1em;
+        }
+
+        .sentence-line input {
+            flex: 1;
+            margin-top: 0;
+        }
+
+        .save-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 30px auto;
+            display: block;
+            transition: transform 0.3s;
+        }
+
+        .save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.4);
+        }
+
+        .tip {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 8px;
+            color: #2e7d32;
+            font-size: 0.95em;
+        }
+
+        .clear-btn {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            margin-left: 10px;
+        }
+
+        .clear-btn:hover {
+            background: #ee5a52;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+            }
+            .save-btn, .add-postit-btn, .clear-btn, .section-download-btn, .refresh-btn {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="refresh-btn-container">
+                <button class="refresh-btn" onclick="refreshPage()" title="페이지 새로 고침">🔄 새로 고침</button>
+            </div>
+            <h1>💬 말의 힘과 책임</h1>
+            <p>매체언어 - 욕설이 미치는 영향 탐구</p>
+        </div>
+
+        <!-- 도입 단계 -->
+        <div class="section" id="section-intro">
+            <button class="section-download-btn" onclick="downloadSectionAsImage('section-intro', '01_도입')">📸 다운로드</button>
+            <div class="section-header">
+                <div class="time-badge">10분</div>
+                <div class="section-title">🌟 도입</div>
+            </div>
+            <div class="strategy-badge">💭 See-Think-Wonder</div>
+
+            <div class="activity">
+                <div class="activity-number">① 회상하기</div>
+                <div class="activity-content">
+                    지난 시간 매체언어 자기진단을 떠올려보세요.
+                    <textarea id="recall" rows="3" placeholder="나의 말습관에는 어떤 특징이 있었을까?"></textarea>
+                </div>
+            </div>
+
+            <div class="activity">
+                <div class="activity-number">② 생각 열기</div>
+                <div class="activity-content">
+                    <strong>질문:</strong> 욕은 왜 그렇게 힘이 세 보일까?
+                    <textarea id="opening" rows="3" placeholder="자유롭게 생각을 적어보세요..."></textarea>
+                </div>
+            </div>
+
+            <div class="activity">
+                <div class="activity-number">③ 오늘의 탐구 질문</div>
+                <div class="activity-content">
+                    <div style="background: white; padding: 20px; border-radius: 10px; text-align: center; font-size: 1.3em; color: #667eea; font-weight: bold; margin-top: 10px;">
+                        욕설은 우리의 관계에 어떤 영향을 미칠까?
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 전개1 단계 -->
+        <div class="section" id="section-development1">
+            <button class="section-download-btn" onclick="downloadSectionAsImage('section-development1', '02_전개1')">📸 다운로드</button>
+            <div class="section-header">
+                <div class="time-badge">15분</div>
+                <div class="section-title">🎬 전개 1 - 욕 Part 1</div>
+            </div>
+            <div class="strategy-badge">💭 Think-Feel-Wonder</div>
+
+            <div class="activity">
+                <div class="activity-number">① 영상 관찰</div>
+                <div class="activity-content">
+                    프레젠테이션 Part 1을 함께 시청합니다.
+                    <div class="tip">💡 욕이 등장해 '강해 보이기'를 강조하는 장면에 주목하세요!</div>
+                </div>
+            </div>
+
+            <div class="activity">
+                <div class="activity-number">② 감정 표현하기</div>
+                <div class="activity-content">
+                    그 장면을 보며 느낀 점을 적고, 감정 이모티콘을 선택하세요.
+                    <textarea id="feeling1" rows="3" placeholder="어떤 느낌이 들었나요?"></textarea>
+                    
+                    <div class="emoji-selector" id="emoji-selector-1">
+                        <button class="emoji-btn" onclick="selectEmoji(this)">😊</button>
+                        <button class="emoji-btn" onclick="selectEmoji(this)">😢</button>
+                        <button class="emoji-btn" onclick="selectEmoji(this)">😡</button>
+                        <button class="emoji-btn" onclick="selectEmoji(this)">😰</button>
+                        <button class="emoji-btn" onclick="selectEmoji(this)">🤔</button>
+                        <button class="emoji-btn" onclick="selectEmoji(this)">😨</button>
+                        <button class="emoji-btn" onclick="selectEmoji(this)">💪</button>
+                        <button class="emoji-btn" onclick="selectEmoji(this)">💔</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="activity">
+                <div class="activity-number">③ 탐구하기</div>
+                <div class="activity-content">
+                    <strong>질문:</strong> 욕은 왜 강해 보이게 만들까?
+                    
+                    <div style="margin-top: 15px;">
+                        <button class="add-postit-btn" onclick="addPostit()">📝 생각 포스트잇 추가하기</button>
+                        <div class="postit-container" id="postitContainer"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 전개2 단계 -->
+        <div class="section" id="section-development2">
+            <button class="section-download-btn" onclick="downloadSectionAsImage('section-development2', '03_전개2')">📸 다운로드</button>
+            <div class="section-header">
+                <div class="time-badge">15분</div>
+                <div class="section-title">💔 전개 2 - 욕 Part 2</div>
+            </div>
+            <div class="strategy-badge">📏 관계 거리 시각화 (Relationship Distance)</div>
+            <div class="strategy-badge" style="margin-left: 10px;">👥 Think-Pair-Share</div>
+
+            <div class="activity">
+                <div class="activity-number">① 영상 관찰</div>
+                <div class="activity-content">
+                    Part 2를 시청합니다: 욕의 영향과 회복 과정
+                    <div class="tip">💡 관계가 어떻게 변화하는지 주의 깊게 관찰하세요!</div>
+                </div>
+            </div>
+
+            <div class="activity">
+                <div class="activity-number">② 관계 거리 표현하기</div>
+                <div class="activity-content">
+                    "욕 이후 달라진 관계"를 거리로 표현해보세요. 두 사람이 가까우면 친밀한 관계, 멀면 소원한 관계를 나타냅니다.
+                    
+                    <div class="distance-container">
+                        <div class="distance-stage">
+                            <div class="stage-label">① 욕하기 전</div>
+                            <div class="distance-visual">
+                                <span class="person-icon">🧑</span>
+                                <div class="distance-slider-container">
+                                    <input type="range" id="distance1" min="0" max="100" value="20" class="distance-slider" oninput="updateDistance(1)">
+                                    <div class="distance-labels">
+                                        <span>가까움</span>
+                                        <span>멀어짐</span>
+                                    </div>
+                                </div>
+                                <span class="person-icon" id="person1">🧑</span>
+                            </div>
+                        </div>
+
+                        <div class="distance-stage">
+                            <div class="stage-label">② 욕한 직후</div>
+                            <div class="distance-visual">
+                                <span class="person-icon">🧑</span>
+                                <div class="distance-slider-container">
+                                    <input type="range" id="distance2" min="0" max="100" value="80" class="distance-slider" oninput="updateDistance(2)">
+                                    <div class="distance-labels">
+                                        <span>가까움</span>
+                                        <span>멀어짐</span>
+                                    </div>
+                                </div>
+                                <span class="person-icon" id="person2">🧑</span>
+                            </div>
+                        </div>
+
+                        <div class="distance-stage">
+                            <div class="stage-label">③ 회복 시도 후</div>
+                            <div class="distance-visual">
+                                <span class="person-icon">🧑</span>
+                                <div class="distance-slider-container">
+                                    <input type="range" id="distance3" min="0" max="100" value="40" class="distance-slider" oninput="updateDistance(3)">
+                                    <div class="distance-labels">
+                                        <span>가까움</span>
+                                        <span>멀어짐</span>
+                                    </div>
+                                </div>
+                                <span class="person-icon" id="person3">🧑</span>
+                            </div>
+                        </div>
+
+                        <div class="tip" style="margin-top: 8px; padding: 10px; font-size: 0.9em;">💡 슬라이더를 움직여서 관계 거리를 표현해보세요!</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="activity">
+                <div class="activity-number">③ 문장 완성하기</div>
+                <div class="activity-content">
+                    아래 문장을 완성해보세요.
+                    
+                    <div class="sentence-complete">
+                        <div class="sentence-line">
+                            <span>욕은</span>
+                            <input type="text" id="blank1" placeholder="무엇을">
+                            <span>을/를 무너뜨렸지만,</span>
+                        </div>
+                        <div class="sentence-line">
+                            <span>따뜻한 말은</span>
+                            <input type="text" id="blank2" placeholder="무엇을">
+                            <span>을/를 되살렸다.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 정리 단계 -->
+        <div class="section" id="section-conclusion">
+            <button class="section-download-btn" onclick="downloadSectionAsImage('section-conclusion', '04_정리')">📸 다운로드</button>
+            <div class="section-header">
+                <div class="time-badge">5분</div>
+                <div class="section-title">✨ 정리</div>
+            </div>
+            <div class="strategy-badge">📰 Headline(개념문장)</div>
+
+            <div class="activity">
+                <div class="activity-number">① 개념 정리</div>
+                <div class="activity-content">
+                    오늘 수업의 핵심 개념
+                    <div style="background: white; padding: 20px; border-radius: 10px; text-align: center; font-size: 1.2em; color: #667eea; font-weight: bold; margin-top: 10px; border: 3px dashed #667eea;">
+                        말은 힘이 있지만, 책임이 따라야 한다.
+                    </div>
+                </div>
+            </div>
+
+            <div class="activity">
+                <div class="activity-number">② 성찰과 학습 저널</div>
+                <div class="activity-content">
+                    오늘 수업을 통해 배운 내용을 바탕으로 성찰해봅시다.
+                    
+                    <div style="margin-top: 15px;">
+                        <strong style="color: #667eea;">💭 다음 질문들을 생각하며 자유롭게 작성해보세요:</strong>
+                        <ul style="margin: 10px 0 10px 20px; line-height: 1.8; color: #666;">
+                            <li>디지털 공간에서 욕이 남기는 흔적은 무엇일까?</li>
+                            <li>오늘 수업을 통해 새롭게 알게 된 점은?</li>
+                            <li>내 말습관에서 바꾸고 싶은 부분은?</li>
+                        </ul>
+                    </div>
+                    
+                    <textarea id="reflection" rows="6" placeholder="자유롭게 생각을 정리해보세요..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <button class="save-btn" onclick="saveWorksheet()">💾 학습지 저장하기 (인쇄 가능)</button>
+    </div>
+
+    <script>
+        // 페이지 새로 고침 함수
+        function refreshPage() {
+            if (confirm('정말 새로 고침하시겠어요? 작성한 내용은 저장되지 않습니다.')) {
+                localStorage.removeItem('worksheetData');
+                location.reload();
+            }
+        }
+
+        // 이모티콘 선택 기능
+        function selectEmoji(btn) {
+            const container = btn.parentElement;
+            container.querySelectorAll('.emoji-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+        }
+
+        // 포스트잇 추가 기능
+        function addPostit() {
+            const container = document.getElementById('postitContainer');
+            const postit = document.createElement('div');
+            postit.className = 'postit';
+            postit.innerHTML = `
+                <button class="postit-delete-btn" onclick="deletePostit(this)">✕</button>
+                <textarea rows="3" placeholder="생각을 적어보세요..." style="border: none; background: transparent; width: 100%; resize: none;"></textarea>
+            `;
+            container.appendChild(postit);
+        }
+
+        // 포스트잇 삭제 함수
+        function deletePostit(btn) {
+            if (confirm('이 포스트잇을 삭제하시겠어요?')) {
+                btn.parentElement.remove();
+            }
+        }
+
+        // 관계 거리 업데이트 기능
+        function updateDistance(stageNum) {
+            const slider = document.getElementById(`distance${stageNum}`);
+            const value = slider.value;
+            
+            // 슬라이더만 시각적으로 업데이트 (이모지는 고정)
+            // 필요시 추후 다른 시각 효과 추가 가능
+        }
+
+        // 단계별 이미지 다운로드 함수
+        async function downloadSectionAsImage(sectionId, filename) {
+            try {
+                const section = document.getElementById(sectionId);
+                const canvas = await html2canvas(section, {
+                    allowTaint: true,
+                    useCORS: true,
+                    scale: 2,
+                    backgroundColor: '#ffffff'
+                });
+                
+                const link = document.createElement('a');
+                link.href = canvas.toDataURL('image/png');
+                link.download = `${filename}_학습결과_${new Date().toISOString().slice(0,10)}.png`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                alert(`"${filename}" 단계가 이미지로 저장되었습니다!`);
+            } catch (error) {
+                alert('이미지 저장 중 오류가 발생했습니다: ' + error.message);
+            }
+        }
+
+        // 페이지 로드 시 초기 거리 설정
+        window.addEventListener('load', function() {
+            updateDistance(1);
+            updateDistance(2);
+            updateDistance(3);
+        });
+
+        // 저장 기능
+        function saveWorksheet() {
+            // 인쇄 대화상자 열기
+            window.print();
+            
+            // 선택사항: 로컬 스토리지에 데이터 저장
+            const data = {
+                recall: document.getElementById('recall').value,
+                opening: document.getElementById('opening').value,
+                feeling1: document.getElementById('feeling1').value,
+                distance1: document.getElementById('distance1').value,
+                distance2: document.getElementById('distance2').value,
+                distance3: document.getElementById('distance3').value,
+                blank1: document.getElementById('blank1').value,
+                blank2: document.getElementById('blank2').value,
+                reflection: document.getElementById('reflection').value,
+                savedAt: new Date().toLocaleString('ko-KR')
+            };
+            
+            localStorage.setItem('worksheetData', JSON.stringify(data));
+            alert('학습지가 저장되었습니다! 인쇄 대화상자를 확인하세요.');
+        }
+
+        // 페이지 로드 시 이전 데이터 복원
+        window.addEventListener('load', function() {
+            const savedData = localStorage.getItem('worksheetData');
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                if (confirm('이전에 작성한 내용을 불러올까요?')) {
+                    document.getElementById('recall').value = data.recall || '';
+                    document.getElementById('opening').value = data.opening || '';
+                    document.getElementById('feeling1').value = data.feeling1 || '';
+                    if (data.distance1) document.getElementById('distance1').value = data.distance1;
+                    if (data.distance2) document.getElementById('distance2').value = data.distance2;
+                    if (data.distance3) document.getElementById('distance3').value = data.distance3;
+                    document.getElementById('blank1').value = data.blank1 || '';
+                    document.getElementById('blank2').value = data.blank2 || '';
+                    document.getElementById('reflection').value = data.reflection || '';
+                    
+                    // 거리 시각화 업데이트
+                    updateDistance(1);
+                    updateDistance(2);
+                    updateDistance(3);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
